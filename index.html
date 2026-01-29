@@ -202,9 +202,12 @@
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Draw player
-            ctx.fillStyle = player.color;
-            ctx.fillRect(player.x - player.width/2, player.y - player.height/2, player.width, player.height);
+            // Draw player (sprite)
+            const playerImg = new Image();
+            playerImg.src = 'assets/player.png';
+            playerImg.onload = () => {
+                ctx.drawImage(playerImg, player.x - player.width/2, player.y - player.height/2, player.width, player.height);
+            };
             
             // Move player (mobile)
             if (isMovingLeft && player.x > 0) player.x -= player.speed;
