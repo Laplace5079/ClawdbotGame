@@ -78,8 +78,22 @@
     <script>
         document.getElementById('signupForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Get form values
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simulate sending data to server for approval
             alert('Your sign-up request has been submitted. Only the administrator can approve it.');
-            // In a real app, this would send data to a server for approval
+            
+            // Send verification email (in a real app, this would be handled by backend)
+            sendVerificationEmail(email);
+            
+            // Redirect to verification page after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'verify.html';
+            }, 2000);
         });
     </script>
 </body>
