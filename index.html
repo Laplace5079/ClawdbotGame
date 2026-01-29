@@ -9,6 +9,7 @@
             overflow: hidden;
             background-color: #000;
             font-family: Arial, sans-serif;
+            touch-action: none; /* Prevent scrolling */
         }
         canvas {
             display: block;
@@ -32,6 +33,40 @@
             cursor: pointer;
             font-size: 1.2rem;
         }
+        .mobile-controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 50;
+        }
+        .control-btn {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: none;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        .shoot-btn {
+            background-color: #f1c40f;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-top: -30px;
+            z-index: 100;
+        }
+        .version {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: white;
+            font-size: 1rem;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +76,12 @@
         <p>Press Space to Start</p>
         <button onclick="startGame()">Start Game</button>
     </div>
+    <div class="mobile-controls" id="mobileControls">
+        <button class="control-btn" id="leftBtn" onmousedown="moveLeft()" ontouchstart="moveLeft()">←</button>
+        <button class="control-btn" id="rightBtn" onmousedown="moveRight()" ontouchstart="moveRight()">→</button>
+        <button class="shoot-btn" id="shootBtn" onmousedown="shoot()" ontouchstart="shoot()"> Shoot </button>
+    </div>
+    <div class="version" id="versionText">v1.0</div>
     <script>
         // Game setup
         const canvas = document.getElementById('gameCanvas');
@@ -94,6 +135,36 @@
             requestAnimationFrame(gameLoop);
         }
         
+        // Mobile controls
+        let isMovingLeft = false;
+        let isMovingRight = false;
+        
+        function moveLeft() {
+            if (gameStarted) player.x -= player.speed;
+        }
+        
+        function moveRight() {
+            if (gameStarted) player.x += player.speed;
+        }
+        
+        // Touch controls
+        document.getElementById('leftBtn').addEventListener('touchend', () => isMovingLeft = false);
+        document.getElementById('rightBtn').addEventListener('touchend', () => isMovingRight = false);
+        
+        // Shoot function
+        function shoot() {
+            if (gameStarted) {
+                bullets.push({
+                    x: player.x,
+                    y: player.y - 20,
+                    width: 5,
+                    height: 15,
+                    color: '#f1c40f'
+                });
+                playShoot();
+            }
+        }
+        
         // Game loop
         function gameLoop() {
             if (!gameStarted) return;
@@ -104,9 +175,9 @@
             ctx.fillStyle = player.color;
             ctx.fillRect(player.x - player.width/2, player.y - player.height/2, player.width, player.height);
             
-            // Move player
-            if (keys['ArrowLeft'] && player.x > 0) player.x -= player.speed;
-            if (keys['ArrowRight'] && player.x < canvas.width) player.x += player.speed;
+            // Move player (mobile)
+            if (isMovingLeft && player.x > 0) player.x -= player.speed;
+            if (isMovingRight && player.x < canvas.width) player.x += player.speed;
             
             // Shoot bullets
             if (keys[' ']) {
@@ -179,6 +250,9 @@
             ctx.fillStyle = '#fff';
             ctx.font = '24px Arial';
             ctx.fillText(`Score: ${score}`, 20, 50);
+            
+            // Draw version text
+            document.getElementById('versionText').textContent = `v1.0`; // Auto-update later
             
             requestAnimationFrame(gameLoop);
         }
