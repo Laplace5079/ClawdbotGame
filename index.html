@@ -8,14 +8,39 @@
             margin: 0;
             overflow: hidden;
             background-color: #000;
+            font-family: Arial, sans-serif;
         }
         canvas {
             display: block;
+        }
+        .start-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            z-index: 100;
+        }
+        .start-screen button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
         }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
+    <div class="start-screen" id="startScreen">
+        <h1>Flight Shooting Game</h1>
+        <p>Press Space to Start</p>
+        <button onclick="startGame()">Start Game</button>
+    </div>
     <script>
         // Game setup
         const canvas = document.getElementById('gameCanvas');
@@ -43,14 +68,36 @@
         let bullets = [];
         let enemies = [];
         let score = 0;
+        let gameStarted = false;
         
         // Controls
         let keys = {};
         window.addEventListener('keydown', e => keys[e.key] = true);
         window.addEventListener('keyup', e => keys[e.key] = false);
         
+        // Audio setup
+        const shootSound = new Audio('shoot.mp3');
+        const explosionSound = new Audio('explosion.mp3');
+        
+        function playShoot() {
+            if (shootSound) shootSound.play().catch(e => console.log('Audio error:', e));
+        }
+        
+        function playExplosion() {
+            if (explosionSound) explosionSound.play().catch(e => console.log('Audio error:', e));
+        }
+        
+        // Start game
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            gameStarted = true;
+            requestAnimationFrame(gameLoop);
+        }
+        
         // Game loop
         function gameLoop() {
+            if (!gameStarted) return;
+            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Draw player
@@ -70,6 +117,7 @@
                     height: 15,
                     color: '#f1c40f'
                 });
+                playShoot();
                 keys[' '] = false; // Prevent rapid fire
             }
             
@@ -109,7 +157,7 @@
                 if (e.y > canvas.height) {
                     enemies.splice(i, 1);
                     i--;
-                    score++;
+                    score += 10;
                 }
             }
             
@@ -121,6 +169,7 @@
                         // Hit!
                         bullets.splice(bullets.indexOf(b), 1);
                         enemies.splice(enemies.indexOf(e), 1);
+                        playExplosion();
                         score += 10;
                     }
                 }
