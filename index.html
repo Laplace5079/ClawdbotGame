@@ -67,6 +67,26 @@
             font-size: 1rem;
             opacity: 0.7;
         }
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            z-index: 100;
+            display: none;
+        }
+        .game-over button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
@@ -82,6 +102,11 @@
         <button class="shoot-btn" id="shootBtn" onmousedown="shoot()" ontouchstart="shoot()"> Shoot </button>
     </div>
     <div class="version" id="versionText">v1.0</div>
+    <div class="game-over" id="gameOver">
+        <h1>Game Over</h1>
+        <p>Your Score: <span id="finalScore"></span></p>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
     <script>
         // Game setup
         const canvas = document.getElementById('gameCanvas');
@@ -110,6 +135,7 @@
         let enemies = [];
         let score = 0;
         let gameStarted = false;
+        let gameOver = false;
         
         // Controls
         let keys = {};
@@ -132,6 +158,11 @@
         function startGame() {
             document.getElementById('startScreen').style.display = 'none';
             gameStarted = true;
+            gameOver = false;
+            score = 0;
+            bullets = [];
+            enemies = [];
+            player.x = canvas.width / 2;
             requestAnimationFrame(gameLoop);
         }
         
@@ -140,11 +171,11 @@
         let isMovingRight = false;
         
         function moveLeft() {
-            if (gameStarted) player.x -= player.speed;
+            if (gameStarted && !gameOver) player.x -= player.speed;
         }
         
         function moveRight() {
-            if (gameStarted) player.x += player.speed;
+            if (gameStarted && !gameOver) player.x += player.speed;
         }
         
         // Touch controls
@@ -153,7 +184,7 @@
         
         // Shoot function
         function shoot() {
-            if (gameStarted) {
+            if (gameStarted && !gameOver) {
                 bullets.push({
                     x: player.x,
                     y: player.y - 20,
@@ -167,7 +198,7 @@
         
         // Game loop
         function gameLoop() {
-            if (!gameStarted) return;
+            if (!gameStarted || gameOver) return;
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
@@ -246,6 +277,16 @@
                 }
             }
             
+            // Check if player is hit
+            for (let e of enemies) {
+                if (player.x >= e.x - e.width/2 && player.x <= e.x + e.width/2 &&
+                    player.y >= e.y && player.y <= e.y + e.height) {
+                    gameOver = true;
+                    showGameOver();
+                    return;
+                }
+            }
+            
             // Draw score
             ctx.fillStyle = '#fff';
             ctx.font = '24px Arial';
@@ -254,6 +295,22 @@
             // Draw version text
             document.getElementById('versionText').textContent = `v1.0`; // Auto-update later
             
+            requestAnimationFrame(gameLoop);
+        }
+        
+        function showGameOver() {
+            document.getElementById('gameOver').style.display = 'block';
+            document.getElementById('finalScore').textContent = score;
+        }
+        
+        function restartGame() {
+            document.getElementById('gameOver').style.display = 'none';
+            gameStarted = true;
+            gameOver = false;
+            score = 0;
+            bullets = [];
+            enemies = [];
+            player.x = canvas.width / 2;
             requestAnimationFrame(gameLoop);
         }
         
