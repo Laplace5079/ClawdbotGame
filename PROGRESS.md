@@ -33,3 +33,11 @@
 - [x] Particle-based Hit Impact VFX system
 - [x] Integrated VFX triggers into combat loop
 
+## Milestone 5: Bosses, Audio, and Persistence
+- [x] Multi-phase Boss logic with scale-up and higher HP/Rewards
+- [x] Boss AOE "Slam" mechanic logic (VFX trigger and timing)
+- [x] XP and Level-up system (Stats increase on level up)
+- [x] LocalStorage persistence (Save/Load character data and inventory)
+- [x] Mock Audio Engine integration (SFX triggers for hits and loot)
+- [x] UI update for XP/Level tracking and Save/Load buttons
+

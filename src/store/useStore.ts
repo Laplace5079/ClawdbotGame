@@ -36,6 +36,15 @@ interface GameState {
   spawnEnemy: (enemy: EnemyData) => void;
   damageEnemy: (id: string, damage: number) => void;
   removeEnemy: (id: string) => void;
+
+  // Leveling
+  experience: number;
+  level: number;
+  addExperience: (amount: number) => void;
+
+  // Persistence
+  saveGame: () => void;
+  loadGame: () => void;
 }
 
 export interface EnemyData {
@@ -43,9 +52,10 @@ export interface EnemyData {
   position: [number, number, number];
   hp: number;
   maxHp: number;
+  isBoss?: boolean;
 }
 
-export const useStore = create<GameState>((set) => ({
+export const useStore = create<GameState>((set, get) => ({
   targetPos: null,
   setTargetPos: (pos) => set({ targetPos: pos }),
 
@@ -67,6 +77,50 @@ export const useStore = create<GameState>((set) => ({
   droppedItems: [],
   enemies: [],
   vfx: [],
+
+  // Initial Leveling State
+  experience: 0,
+  level: 1,
+
+  addExperience: (amount) => set((state) => {
+    const newExperience = state.experience + amount;
+    const experienceToNextLevel = state.level * 100;
+    if (newExperience >= experienceToNextLevel) {
+      return {
+        experience: newExperience - experienceToNextLevel,
+        level: state.level + 1,
+        // Buff stats on level up
+        baseStats: {
+          ...state.baseStats,
+          [StatType.VITALITY]: state.baseStats[StatType.VITALITY] + 2,
+          [StatType.STRENGTH]: state.baseStats[StatType.STRENGTH] + 1,
+        }
+      };
+    }
+    return { experience: newExperience };
+  }),
+
+  saveGame: () => {
+    const state = get();
+    const saveData = {
+      baseStats: state.baseStats,
+      inventory: state.inventory,
+      equipped: state.equipped,
+      experience: state.experience,
+      level: state.level,
+    };
+    localStorage.setItem('abyss_save', JSON.stringify(saveData));
+    console.log("Game Saved");
+  },
+
+  loadGame: () => {
+    const saved = localStorage.getItem('abyss_save');
+    if (saved) {
+      const data = JSON.parse(saved);
+      set({ ...data });
+      console.log("Game Loaded");
+    }
+  },
 
   addItem: (item) => set((state) => ({ inventory: [...state.inventory, item] })),
   addVFX: (type, position) => set((state) => ({

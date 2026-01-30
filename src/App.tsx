@@ -20,13 +20,20 @@ function App() {
   const vfx = useStore((state) => state.vfx);
   const removeVFX = useStore((state) => state.removeVFX);
 
+  const saveGame = useStore((state) => state.saveGame);
+  const loadGame = useStore((state) => state.loadGame);
+  const level = useStore((state) => state.level);
+  const exp = useStore((state) => state.experience);
+
   const mockEnemySpawn = () => {
     const id = Math.random().toString();
+    const isBoss = Math.random() > 0.8;
     spawnEnemy({
       id,
       position: [(Math.random() - 0.5) * 20, 1, (Math.random() - 0.5) * 20],
-      hp: 50,
-      maxHp: 50,
+      hp: isBoss ? 500 : 50,
+      maxHp: isBoss ? 500 : 50,
+      isBoss
     });
   };
 
@@ -34,25 +41,71 @@ function App() {
     <div style={{ width: '100vw', height: '100vh', background: '#111' }}>
       <InventoryUI />
       
-      <button 
-        onClick={mockEnemySpawn}
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          padding: '10px 20px',
-          backgroundColor: '#800',
-          color: 'white',
-          border: '2px solid #daa520',
-          cursor: 'pointer',
-          zIndex: 10,
-          fontWeight: 'bold',
-          textTransform: 'uppercase'
-        }}
-      >
-        Spawn Enemy
-      </button>
+      {/* HUD Info */}
+      <div style={{
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        color: 'white',
+        zIndex: 10,
+        fontFamily: 'monospace',
+        background: 'rgba(0,0,0,0.5)',
+        padding: '10px'
+      }}>
+        LEVEL: {level}<br/>
+        EXP: {exp} / {level * 100}
+      </div>
+
+      <div style={{
+        position: 'absolute',
+        bottom: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        gap: '10px',
+        zIndex: 10
+      }}>
+        <button 
+          onClick={mockEnemySpawn}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#800',
+            color: 'white',
+            border: '2px solid #daa520',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            textTransform: 'uppercase'
+          }}
+        >
+          Spawn Enemy
+        </button>
+
+        <button 
+          onClick={saveGame}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#222',
+            color: 'white',
+            border: '1px solid #666',
+            cursor: 'pointer'
+          }}
+        >
+          Save
+        </button>
+
+        <button 
+          onClick={loadGame}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#222',
+            color: 'white',
+            border: '1px solid #666',
+            cursor: 'pointer'
+          }}
+        >
+          Load
+        </button>
+      </div>
 
       <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
         <color attach="background" args={['#050505']} />
