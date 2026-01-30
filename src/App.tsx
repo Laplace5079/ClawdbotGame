@@ -6,21 +6,24 @@ import { Ground } from './components/Ground';
 import { InventoryUI } from './components/InventoryUI';
 import { LootLabels } from './components/LootLabels';
 import { useStore } from './store/useStore';
-import { generateItem } from './systems/itemGenerator';
 import './App.css';
+
+import { Dungeon } from './components/Dungeon';
+import { Enemy } from './components/Enemy';
 
 function App() {
   const setTargetPos = useStore((state) => state.setTargetPos);
-  const dropItem = useStore((state) => state.dropItem);
+  const spawnEnemy = useStore((state) => state.spawnEnemy);
+  const enemies = useStore((state) => state.enemies);
 
-  const mockEnemyDeath = () => {
-    const newItem = generateItem(1);
-    const randomPos: [number, number, number] = [
-      (Math.random() - 0.5) * 10,
-      0.5,
-      (Math.random() - 0.5) * 10
-    ];
-    dropItem(newItem, randomPos);
+  const mockEnemySpawn = () => {
+    const id = Math.random().toString();
+    spawnEnemy({
+      id,
+      position: [(Math.random() - 0.5) * 20, 1, (Math.random() - 0.5) * 20],
+      hp: 50,
+      maxHp: 50,
+    });
   };
 
   return (
@@ -28,7 +31,7 @@ function App() {
       <InventoryUI />
       
       <button 
-        onClick={mockEnemyDeath}
+        onClick={mockEnemySpawn}
         style={{
           position: 'absolute',
           bottom: '20px',
@@ -44,16 +47,21 @@ function App() {
           textTransform: 'uppercase'
         }}
       >
-        Mock Enemy Kill (Drop Loot)
+        Spawn Enemy
       </button>
 
-      <Canvas shadows camera={{ position: [10, 10, 10], fov: 45 }}>
+      <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
         <Sky sunPosition={[100, 20, 100]} />
         <ambientLight intensity={0.3} />
         <pointLight position={[10, 10, 10]} castShadow />
         
         <Physics debug>
           <Player />
+          <Dungeon />
+          {enemies.map(enemy => (
+            <Enemy key={enemy.id} id={enemy.id} initialPosition={enemy.position} />
+          ))}
+          {/* Keep ground for movement raycasting */}
           <Ground onMove={setTargetPos} />
         </Physics>
 

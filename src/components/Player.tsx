@@ -7,11 +7,15 @@ import { useStore } from '../store/useStore';
 export function Player() {
   const rb = useRef<any>(null);
   const targetPos = useStore((state) => state.targetPos);
+  const setPlayerPos = useStore((state) => state.setPlayerPos);
 
   useFrame((_state, delta) => {
-    if (!targetPos || !rb.current) return;
+    if (!rb.current) return;
 
     const currentPos = rb.current.translation();
+    setPlayerPos([currentPos.x, currentPos.y, currentPos.z]);
+
+    if (!targetPos) return;
     const currentVec = new THREE.Vector3(currentPos.x, currentPos.y, currentPos.z);
     const targetVec = new THREE.Vector3(...targetPos);
     

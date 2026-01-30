@@ -1,6 +1,6 @@
 import { ItemRarity, ItemType } from './loot.types';
 import type { Item } from './loot.types';
-import { StatType, DerivedStatType } from './stats.types';
+import { StatType, DerivedStatType, ModifierType } from './stats.types';
 import { v4 as uuidv4 } from 'uuid';
 
 const ITEM_NAMES: Record<ItemType, string[]> = {
@@ -41,10 +41,13 @@ export const generateItem = (level: number): Item => {
       ? Math.floor(Math.random() * 10 + level) 
       : Math.floor(Math.random() * 5 + level * 2);
 
+    const id = uuidv4();
     stats.push({
+      id,
       stat,
-      type: isPercent ? 'percent_increased' : 'flat' as any,
-      value
+      type: isPercent ? ModifierType.PERCENT_INCREASED : ModifierType.FLAT,
+      value,
+      source: 'item'
     });
   }
 

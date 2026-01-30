@@ -1,4 +1,4 @@
-import { StatType, DerivedStatType } from './stats.types';
+import type { Modifier } from './stats.types';
 
 const ItemRarity = {
   COMMON: 'Common',
@@ -23,11 +23,5 @@ export interface Item {
   type: ItemType;
   rarity: ItemRarity;
   level: number;
-  stats: ItemStat[];
-}
-
-export interface ItemStat {
-  stat: StatType | DerivedStatType;
-  type: 'flat' | 'percent_increased';
-  value: number;
+  stats: Modifier[];
 }

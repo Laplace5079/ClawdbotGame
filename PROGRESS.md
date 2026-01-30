@@ -16,3 +16,11 @@
 - [x] World Loot Labels
 - [x] Mock enemy death trigger to spawn loot labels
 - [x] Phase 2 Bugfixes (TypeScript & Prop Naming)
+
+## Milestone 3: Procedural Generation & Enemy AI
+- [x] Simple grid-based dungeon generator (`dungeonGenerator.ts`)
+- [x] Modular Dungeon tile component (`Dungeon.tsx`)
+- [x] Enemy System with Zustand state (HP, damage, spawning)
+- [x] Basic Melee Enemy AI (Chases player position)
+- [x] Stat-linked Combat (Enemy takes damage based on Player's Physical Damage stat)
+- [x] Loot drop on Enemy Death (Integration of Phase 2 loot system with Phase 3 enemies)

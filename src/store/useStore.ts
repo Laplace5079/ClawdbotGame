@@ -14,6 +14,8 @@ interface GameState {
   setTargetPos: (pos: [number, number, number] | null) => void;
 
   // Player Stats
+  playerPos: [number, number, number];
+  setPlayerPos: (pos: [number, number, number]) => void;
   baseStats: BaseStats;
   inventory: Item[];
   equipped: Record<string, Item | null>;
@@ -24,11 +26,26 @@ interface GameState {
   equipItem: (item: Item, slot: string) => void;
   dropItem: (item: Item, position: [number, number, number]) => void;
   pickupItem: (id: string) => void;
+  // Enemy System
+  enemies: EnemyData[];
+  spawnEnemy: (enemy: EnemyData) => void;
+  damageEnemy: (id: string, damage: number) => void;
+  removeEnemy: (id: string) => void;
+}
+
+export interface EnemyData {
+  id: string;
+  position: [number, number, number];
+  hp: number;
+  maxHp: number;
 }
 
 export const useStore = create<GameState>((set) => ({
   targetPos: null,
   setTargetPos: (pos) => set({ targetPos: pos }),
+
+  playerPos: [0, 0, 0],
+  setPlayerPos: (pos) => set({ playerPos: pos }),
 
   baseStats: {
     [StatType.STRENGTH]: 10,
@@ -43,6 +60,7 @@ export const useStore = create<GameState>((set) => ({
     ring: null,
   },
   droppedItems: [],
+  enemies: [],
 
   addItem: (item) => set((state) => ({ inventory: [...state.inventory, item] })),
   equipItem: (item, slot) => set((state) => ({
@@ -51,7 +69,7 @@ export const useStore = create<GameState>((set) => ({
   dropItem: (item, position) => set((state) => ({
     droppedItems: [...state.droppedItems, { item, position }]
   })),
-  pickupItem: (id) => set((state) => {
+  pickupItem: (id: string) => set((state) => {
     const dropped = state.droppedItems.find((d) => d.item.id === id);
     if (!dropped) return state;
     return {
@@ -59,4 +77,12 @@ export const useStore = create<GameState>((set) => ({
       droppedItems: state.droppedItems.filter((d) => d.item.id !== id),
     };
   }),
+
+  spawnEnemy: (enemy) => set((state) => ({ enemies: [...state.enemies, enemy] })),
+  damageEnemy: (id, damage) => set((state) => ({
+    enemies: state.enemies.map(e => e.id === id ? { ...e, hp: Math.max(0, e.hp - damage) } : e)
+  })),
+  removeEnemy: (id) => set((state) => ({
+    enemies: state.enemies.filter(e => e.id !== id)
+  })),
 }));
