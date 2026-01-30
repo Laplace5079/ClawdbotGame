@@ -12,5 +12,7 @@
 - [x] Stat calculator logic implemented (Flat/Inc/More)
 - [x] Loot generation system (Rarity, Affixes, Types)
 - [x] Zustand store updated for Inventory/Equipment
-- [ ] Inventory UI Implementation
-- [ ] World Loot Labels
+- [x] Inventory UI Implementation
+- [x] World Loot Labels
+- [x] Mock enemy death trigger to spawn loot labels
+- [x] Phase 2 Bugfixes (TypeScript & Prop Naming)
