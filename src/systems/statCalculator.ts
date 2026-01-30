@@ -25,12 +25,12 @@ export const calculateStats = (base: BaseStats, modifiers: Modifier[]): Computed
   const vit = getFinalValue(base[StatType.VITALITY], StatType.VITALITY);
 
   // 2. Define Base Derived Values (incorporating Core Stats)
-  const baseHp = vit * 10;
-  const baseMana = int * 5;
-  const basePhys = str * 0.5;
-  const baseAtkSpeed = 1 + (dex * 0.01);
-  const baseCrit = 5 + (dex * 0.1);
-  const baseMoveSpeed = 5;
+  const baseHp = vit * 12; // Adjusted from 10 for better survivability
+  const baseMana = int * 8; // Adjusted from 5 for deeper mana pool
+  const basePhys = str * 0.7; // Adjusted from 0.5 for punchier combat
+  const baseAtkSpeed = 1 + (dex * 0.012); // Dexterity now scales AS faster (0.012 vs 0.01)
+  const baseCrit = 5 + (dex * 0.15); // Dexterity now scales Crit faster (0.15 vs 0.1)
+  const baseMoveSpeed = 6; // Base move speed increased from 5 to 6 for better game feel
 
   return {
     [DerivedStatType.MAX_HP]: getFinalValue(baseHp, DerivedStatType.MAX_HP),

@@ -19,9 +19,9 @@ export const generateItem = (level: number): Item => {
   let rarity: ItemRarity = ItemRarity.COMMON;
   let affixCount = 0;
 
-  if (rarityRoll > 0.95) { rarity = ItemRarity.UNIQUE; affixCount = 4; }
-  else if (rarityRoll > 0.8) { rarity = ItemRarity.RARE; affixCount = 3; }
-  else if (rarityRoll > 0.5) { rarity = ItemRarity.MAGIC; affixCount = 1; }
+  if (rarityRoll > 0.98) { rarity = ItemRarity.UNIQUE; affixCount = 4; }
+  else if (rarityRoll > 0.90) { rarity = ItemRarity.RARE; affixCount = 3; }
+  else if (rarityRoll > 0.7) { rarity = ItemRarity.MAGIC; affixCount = 1; }
 
   const type = Object.values(ItemType)[Math.floor(Math.random() * 3)];
   const nameBase = ITEM_NAMES[type][Math.floor(Math.random() * ITEM_NAMES[type].length)];

@@ -41,3 +41,11 @@
 - [x] Mock Audio Engine integration (SFX triggers for hits and loot)
 - [x] UI update for XP/Level tracking and Save/Load buttons
 
+## Milestone 6: Numerical Balancing and 1.0 Release
+- [x] Audit and tune Stat multiplier logic (`statCalculator.ts`) for better scaling
+- [x] Adjust item rarity weights (`itemGenerator.ts`) to "Diablo-like" standards
+- [x] Disable physics debug visualizers in `App.tsx`
+- [x] Perform final production build (`npm run build`)
+- [x] Final Documentation and Release Preparation
+
+
