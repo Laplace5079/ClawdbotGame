@@ -21,6 +21,11 @@ interface GameState {
   equipped: Record<string, Item | null>;
   droppedItems: DroppedItem[];
   
+  // VFX
+  vfx: { id: string, type: string, position: [number, number, number], createdAt: number }[];
+  addVFX: (type: string, position: [number, number, number]) => void;
+  removeVFX: (id: string) => void;
+  
   // Actions
   addItem: (item: Item) => void;
   equipItem: (item: Item, slot: string) => void;
@@ -61,8 +66,15 @@ export const useStore = create<GameState>((set) => ({
   },
   droppedItems: [],
   enemies: [],
+  vfx: [],
 
   addItem: (item) => set((state) => ({ inventory: [...state.inventory, item] })),
+  addVFX: (type, position) => set((state) => ({
+    vfx: [...state.vfx, { id: Math.random().toString(), type, position, createdAt: Date.now() }]
+  })),
+  removeVFX: (id) => set((state) => ({
+    vfx: state.vfx.filter(v => v.id !== id)
+  })),
   equipItem: (item, slot) => set((state) => ({
     equipped: { ...state.equipped, [slot]: item }
   })),

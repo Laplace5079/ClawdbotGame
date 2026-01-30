@@ -1,10 +1,12 @@
 import { Canvas } from '@react-three/fiber';
-import { Sky, OrbitControls } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { Physics } from '@react-three/rapier';
 import { Player } from './components/Player';
 import { Ground } from './components/Ground';
 import { InventoryUI } from './components/InventoryUI';
 import { LootLabels } from './components/LootLabels';
+import { Effects } from './components/Effects';
+import { ImpactVFX } from './components/VFX';
 import { useStore } from './store/useStore';
 import './App.css';
 
@@ -15,6 +17,8 @@ function App() {
   const setTargetPos = useStore((state) => state.setTargetPos);
   const spawnEnemy = useStore((state) => state.spawnEnemy);
   const enemies = useStore((state) => state.enemies);
+  const vfx = useStore((state) => state.vfx);
+  const removeVFX = useStore((state) => state.removeVFX);
 
   const mockEnemySpawn = () => {
     const id = Math.random().toString();
@@ -51,11 +55,11 @@ function App() {
       </button>
 
       <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
-        <Sky sunPosition={[100, 20, 100]} />
-        <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} castShadow />
+        <color attach="background" args={['#050505']} />
+        <fog attach="fog" args={['#050505', 10, 50]} />
+        <ambientLight intensity={0.1} />
         
-        <Physics debug>
+        <Physics debug={false}>
           <Player />
           <Dungeon />
           {enemies.map(enemy => (
@@ -65,6 +69,15 @@ function App() {
           <Ground onMove={setTargetPos} />
         </Physics>
 
+        {vfx.map(v => (
+          <ImpactVFX 
+            key={v.id} 
+            position={v.position} 
+            onComplete={() => removeVFX(v.id)} 
+          />
+        ))}
+
+        <Effects />
         <LootLabels />
         <OrbitControls />
       </Canvas>

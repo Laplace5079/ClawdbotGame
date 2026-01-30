@@ -14,7 +14,7 @@ interface EnemyProps {
 
 export function Enemy({ id, initialPosition }: EnemyProps) {
   const rb = useRef<RapierRigidBody>(null);
-  const { damageEnemy, removeEnemy, dropItem, baseStats, equipped, enemies, playerPos } = useStore();
+  const { damageEnemy, removeEnemy, dropItem, baseStats, equipped, enemies, playerPos, addVFX } = useStore();
   const enemyData = enemies.find(e => e.id === id);
   
   // Calculate player damage
@@ -23,6 +23,13 @@ export function Enemy({ id, initialPosition }: EnemyProps) {
     const computed = calculateStats(baseStats, allStats);
     return computed[DerivedStatType.PHYSICAL_DAMAGE];
   }, [baseStats, equipped]);
+
+  const handleHit = () => {
+    if (!rb.current) return;
+    const pos = rb.current.translation();
+    damageEnemy(id, playerDamage);
+    addVFX('impact', [pos.x, pos.y + 0.5, pos.z]);
+  };
 
   // Handle Death
   useEffect(() => {
@@ -60,7 +67,7 @@ export function Enemy({ id, initialPosition }: EnemyProps) {
       colliders="cuboid" 
       enabledRotations={[false, false, false]}
     >
-      <mesh castShadow onPointerDown={() => damageEnemy(id, playerDamage)}>
+      <mesh castShadow onPointerDown={handleHit}>
         <capsuleGeometry args={[0.5, 1, 4, 8]} />
         <meshStandardMaterial color={enemyData.hp < enemyData.maxHp ? "red" : "darkred"} />
       </mesh>

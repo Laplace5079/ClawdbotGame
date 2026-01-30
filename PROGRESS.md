@@ -24,3 +24,12 @@
 - [x] Basic Melee Enemy AI (Chases player position)
 - [x] Stat-linked Combat (Enemy takes damage based on Player's Physical Damage stat)
 - [x] Loot drop on Enemy Death (Integration of Phase 2 loot system with Phase 3 enemies)
+
+## Milestone 4: AAA Visual Polish & VFX
+- [x] Post-processing stack setup (`@react-three/postprocessing`)
+- [x] Bloom, SSAO, Noise, and Vignette implementation
+- [x] Exponential fog and grim-dark color palette
+- [x] Dynamic flickering torch point lights in dungeon rooms
+- [x] Particle-based Hit Impact VFX system
+- [x] Integrated VFX triggers into combat loop
+
