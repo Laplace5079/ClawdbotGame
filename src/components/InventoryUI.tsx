@@ -21,16 +21,17 @@ export const InventoryUI: React.FC = () => {
     equipItem(item, slot);
   };
 
-  // Convert item stats to modifiers for the calculator
   const modifiers = Object.values(equipped).flatMap(item => 
     item ? item.stats.map(s => ({
+      id: s.id,
       stat: s.stat,
-      type: s.type === 'flat' ? 'flat' : 'percent_increased' as any,
-      value: s.value
+      type: s.type,
+      value: s.value,
+      source: s.source
     })) : []
   );
 
-  const computedStats = calculateStats(baseStats, modifiers as any);
+  const computedStats = calculateStats(baseStats, modifiers);
 
   return (
     <div style={{

@@ -1,6 +1,4 @@
 import { RigidBody } from '@react-three/rapier';
-import { useTexture } from '@react-three/drei';
-import * as THREE from 'three';
 
 export function Ground({ onMove }: { onMove: (pos: [number, number, number]) => void }) {
   return (

@@ -8,9 +8,8 @@ export function MobileControls() {
   const enemies = useStore((state) => state.enemies);
   const damageEnemy = useStore((state) => state.damageEnemy);
   const addVFX = useStore((state) => state.addVFX);
-  const hp = useStore((state) => state.hp);
-  const maxHp = useStore((state) => state.maxHp);
-  const mp = useStore((state) => 100); // Placeholder for MP
+  const hp = 100; // Placeholder
+  const maxHp = 100; // Placeholder
 
   const [isJoystickActive, setIsJoystickActive] = useState(false);
   const [joystickPos, setJoystickPos] = useState({ x: 0, y: 0 });

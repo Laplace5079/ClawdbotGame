@@ -4,7 +4,7 @@ import * as THREE from 'three';
 
 export const Effects = () => {
   return (
-    <EffectComposer disableNormalPass>
+    <EffectComposer>
       <SSAO 
         intensity={20} 
         radius={0.3} 

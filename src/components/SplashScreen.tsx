@@ -1,6 +1,6 @@
-import React, { Suspense, useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Text, Stars, Sparkles, PerspectiveCamera } from '@react-three/drei';
+import { Stars, Sparkles, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { useStore } from '../store/useStore';
 

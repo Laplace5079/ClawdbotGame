@@ -2,7 +2,8 @@ import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { RigidBody } from '@react-three/rapier';
 import { PointLight } from 'three';
-import { generateDungeon, DungeonProp } from '../systems/dungeonGenerator';
+import { generateDungeon } from '../systems/dungeonGenerator';
+import type { DungeonProp } from '../systems/dungeonGenerator';
 
 function Torch({ position }: { position: [number, number, number] }) {
   const lightRef = useRef<PointLight>(null);
