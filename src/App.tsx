@@ -21,7 +21,7 @@ import { ExitPortal } from './components/ExitPortal';
 
 function App() {
   const gameState = useStore((state) => state.gameState);
-  const setTargetPos = useStore((state) => state.setTargetPos);
+  console.log("Current Game State:", gameState);
   const spawnEnemy = useStore((state) => state.spawnEnemy);
   const enemies = useStore((state) => state.enemies);
   const vfx = useStore((state) => state.vfx);
