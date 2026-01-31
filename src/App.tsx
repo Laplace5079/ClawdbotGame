@@ -160,7 +160,7 @@ function App() {
             />
           ))}
 
-          <Effects />
+          {/* <Effects /> */}
           <LootLabels />
           <OrbitControls />
         </Suspense>
