@@ -82,7 +82,7 @@ export const SplashScreen: React.FC = () => {
           textShadow: '0 0 10px rgba(218, 165, 32, 0.5)',
           letterSpacing: '2px'
         }}>
-          PHASE 7.1 | AAA OVERHAUL
+          PHASE 7.2 | AAA OVERHAUL
         </div>
       </div>
 

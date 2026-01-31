@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { useGLTF, useAnimations } from '@react-three/drei';
 import { useStore } from '../store/useStore';
 
-const MODEL_URL = 'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/knight/model.gltf';
+const MODEL_URL = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/RobotExpressive/glTF-Binary/RobotExpressive.glb';
 
 export function Player() {
   const rb = useRef<any>(null);
@@ -18,8 +18,8 @@ export function Player() {
   const isAttacking = useStore((state) => state.isAttacking);
 
   useEffect(() => {
-    let anim = animation;
-    if (isAttacking) anim = 'Attack';
+    let anim = isAttacking ? 'Punch' : animation;
+    if (anim === 'Run') anim = 'Running'; // RobotExpressive uses 'Running'
     
     actions[anim]?.reset().fadeIn(0.2).play();
     return () => {
