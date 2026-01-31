@@ -66,7 +66,8 @@ export function Player() {
   return (
     <RigidBody ref={rb} colliders={false} enabledRotations={[false, false, false]} position={[0, 1, 0]}>
       <CapsuleCollider args={[0.5, 0.5]} />
-      <primitive object={scene} scale={1} position={[0, -1, 0]} castShadow />
+      <primitive object={scene} scale={1.2} position={[0, -1, 0]} castShadow />
+      <pointLight position={[0, 2, 0]} intensity={2} color="#fff" distance={10} />
     </RigidBody>
   );
 }

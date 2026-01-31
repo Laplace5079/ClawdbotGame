@@ -8,6 +8,14 @@ interface DroppedItem {
   position: [number, number, number];
 }
 
+interface EnemyData {
+  id: string;
+  position: [number, number, number];
+  hp: number;
+  maxHp: number;
+  isBoss?: boolean;
+}
+
 interface GameState {
   // Movement
   targetPos: [number, number, number] | null;
@@ -17,6 +25,8 @@ interface GameState {
   playerPos: [number, number, number];
   setPlayerPos: (pos: [number, number, number]) => void;
   baseStats: BaseStats;
+  hp: number;
+  maxHp: number;
   inventory: Item[];
   equipped: Record<string, Item | null>;
   droppedItems: DroppedItem[];
@@ -63,14 +73,6 @@ interface GameState {
   loadGame: () => void;
 }
 
-export interface EnemyData {
-  id: string;
-  position: [number, number, number];
-  hp: number;
-  maxHp: number;
-  isBoss?: boolean;
-}
-
 export const useStore = create<GameState>((set, get) => ({
   targetPos: null,
   setTargetPos: (pos) => set({ targetPos: pos }),
@@ -84,6 +86,8 @@ export const useStore = create<GameState>((set, get) => ({
     [StatType.INTELLIGENCE]: 10,
     [StatType.VITALITY]: 10,
   },
+  hp: 120,
+  maxHp: 120,
   inventory: [],
   equipped: {
     weapon: null,
@@ -101,7 +105,6 @@ export const useStore = create<GameState>((set, get) => ({
   incrementDungeonLevel: () => set((state) => ({ dungeonLevel: state.dungeonLevel + 1 })),
   resetDungeon: () => set({ enemies: [], enemiesDefeated: 0, totalEnemiesInLevel: 0, targetPos: null }),
 
-  // Initial Leveling State
   experience: 0,
   level: 1,
 
@@ -119,12 +122,13 @@ export const useStore = create<GameState>((set, get) => ({
       return {
         experience: newExperience - experienceToNextLevel,
         level: state.level + 1,
-        // Buff stats on level up
         baseStats: {
           ...state.baseStats,
           [StatType.VITALITY]: state.baseStats[StatType.VITALITY] + 2,
           [StatType.STRENGTH]: state.baseStats[StatType.STRENGTH] + 1,
-        }
+        },
+        maxHp: (state.baseStats[StatType.VITALITY] + 2) * 12,
+        hp: (state.baseStats[StatType.VITALITY] + 2) * 12
       };
     }
     return { experience: newExperience };
@@ -140,7 +144,6 @@ export const useStore = create<GameState>((set, get) => ({
       level: state.level,
     };
     localStorage.setItem('abyss_save', JSON.stringify(saveData));
-    console.log("Game Saved");
   },
 
   loadGame: () => {
@@ -148,7 +151,6 @@ export const useStore = create<GameState>((set, get) => ({
     if (saved) {
       const data = JSON.parse(saved);
       set({ ...data });
-      console.log("Game Loaded");
     }
   },
 

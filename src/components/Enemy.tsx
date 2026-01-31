@@ -8,7 +8,7 @@ import { DerivedStatType } from '../systems/stats.types';
 import { calculateStats } from '../systems/statCalculator';
 import { generateItem } from '../systems/itemGenerator';
 
-const ENEMY_MODEL = 'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/ghost/model.gltf';
+const ENEMY_MODEL = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Ghost/glTF/Ghost.gltf';
 
 const playSound = (type: string) => {
   console.log(`[Audio] Playing SFX: ${type}`);

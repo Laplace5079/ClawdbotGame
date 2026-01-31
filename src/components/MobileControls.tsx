@@ -8,8 +8,8 @@ export function MobileControls() {
   const enemies = useStore((state) => state.enemies);
   const damageEnemy = useStore((state) => state.damageEnemy);
   const addVFX = useStore((state) => state.addVFX);
-  const hp = 100; // Placeholder
-  const maxHp = 100; // Placeholder
+  const hp = useStore((state) => state.hp);
+  const maxHp = useStore((state) => state.maxHp);
 
   const [isJoystickActive, setIsJoystickActive] = useState(false);
   const [joystickPos, setJoystickPos] = useState({ x: 0, y: 0 });
@@ -261,7 +261,8 @@ export function MobileControls() {
         .attack-btn .btn-inner { color: #fff; }
 
         @media (min-width: 1024px) {
-          .mobile-ui-container { display: none; }
+          .mobile-ui-container .joystick-base { display: none; }
+          .mobile-ui-container .action-group { display: none; }
         }
       `}</style>
     </div>

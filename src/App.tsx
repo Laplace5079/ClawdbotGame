@@ -132,8 +132,9 @@ function App() {
 
       <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
         <color attach="background" args={['#050505']} />
-        <fog attach="fog" args={['#050505', 10, 50]} />
-        <ambientLight intensity={0.1} />
+        <fog attach="fog" args={['#050505', 5, 40]} />
+        <ambientLight intensity={0.4} />
+        <pointLight position={[10, 10, 10]} intensity={1.5} castShadow />
         
         <Physics debug={false}>
           {gameState === 'playing' && (
