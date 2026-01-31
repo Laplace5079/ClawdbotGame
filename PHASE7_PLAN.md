@@ -2,9 +2,9 @@
 
 This phase focuses on transforming Project Abyss from a technical demo into a polished game experience with a professional look and feel, and accessibility for mobile players.
 
-## 2. Level & Progression Structure
-- [ ] **GLTF Integration:** Replace the capsule player with a rigged 3D character model.
-- [ ] **Animation System:** Implement `AnimationMixer` logic for Idle, Run, Attack, and Death states.
+## 1. Character & Animation Overhaul
+- [x] **GLTF Integration:** Replace the capsule player with a rigged 3D character model.
+- [x] **Animation System:** Implement `AnimationMixer` logic for Idle, Run, Attack, and Death states.
 - [ ] **Dynamic Equipment:** (Stretch Goal) Simple visual changes based on equipped weapon/armor type.
 
 ## 2. Level & Progression Structure
@@ -18,6 +18,6 @@ This phase focuses on transforming Project Abyss from a technical demo into a po
 - [x] **HUD Redesign:** A more "Diablo-esque" HUD with health/mana globes and a skill bar.
 
 ## 4. Mobile Adaptation
-- [ ] **Virtual Joystick:** Implement a touch-screen joystick for movement.
-- [ ] **Action Buttons:** Large, tactile buttons for attacking and using skills on mobile.
+- [x] **Virtual Joystick:** Implement a touch-screen joystick for movement.
+- [x] **Action Buttons:** Large, tactile buttons for attacking and using skills on mobile.
 - [x] **Responsive Scaling:** Ensure all UI elements (Inventory, Stats) are usable on small screens.

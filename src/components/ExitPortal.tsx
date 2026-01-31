@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStore } from '../store/useStore';
 
 export const ExitPortal: React.FC = () => {
@@ -8,14 +8,16 @@ export const ExitPortal: React.FC = () => {
   // Hardcoded portal position for now or can be passed as prop
   const portalPos: [number, number, number] = [0, 0, 0];
   
-  // Simple distance check
-  const dx = playerPos[0] - portalPos[0];
-  const dz = playerPos[2] - portalPos[2];
-  const dist = Math.sqrt(dx * dx + dz * dz);
-  
-  if (dist < 2) {
-    setGameState('cleared');
-  }
+  useEffect(() => {
+    // Simple distance check
+    const dx = playerPos[0] - portalPos[0];
+    const dz = playerPos[2] - portalPos[2];
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    
+    if (dist < 2) {
+      setGameState('cleared');
+    }
+  }, [playerPos, setGameState]);
 
   return (
     <group position={portalPos}>

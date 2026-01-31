@@ -48,5 +48,7 @@
 - [x] Exit Portal spawning upon dungeon completion
 - [x] Difficulty scaling (Enemy HP scales with dungeon level)
 - [x] Mobile-responsive UI layout for HUD and Splash screens
+- [x] Rigged 3D Character (Knight) with animations (Idle, Run, Attack)
+- [x] Mobile Virtual Joystick and large action buttons
 
 
