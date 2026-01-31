@@ -72,8 +72,17 @@ export const SplashScreen: React.FC = () => {
           </div>
         </div>
 
-        <div className="footer">
-          V0.7.0 PHASE 7 | AAA OVERHAUL
+        <div className="footer" style={{ 
+          position: 'absolute', 
+          bottom: '20px', 
+          right: '20px', 
+          color: '#daa520', 
+          fontSize: '1.2rem',
+          fontWeight: 'bold',
+          textShadow: '0 0 10px rgba(218, 165, 32, 0.5)',
+          letterSpacing: '2px'
+        }}>
+          PHASE 7 | AAA OVERHAUL
         </div>
       </div>
 
