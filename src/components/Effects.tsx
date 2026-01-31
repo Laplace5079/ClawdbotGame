@@ -6,10 +6,10 @@ export const Effects = () => {
   return (
     <EffectComposer>
       <SSAO 
-        intensity={20} 
-        radius={0.3} 
-        luminanceInfluence={0.2} 
-        color={new THREE.Color("#000")} 
+        intensity={1.5} 
+        radius={0.4} 
+        luminanceInfluence={0.5} 
+        color={new THREE.Color("#000000")} 
       />
       <Bloom 
         intensity={1.5} 

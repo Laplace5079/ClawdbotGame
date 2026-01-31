@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Html } from '@react-three/drei';
 import { Physics } from '@react-three/rapier';
+import { Suspense } from 'react';
 import { Player } from './components/Player';
 import { Ground } from './components/Ground';
 import { InventoryUI } from './components/InventoryUI';
@@ -131,37 +132,38 @@ function App() {
       </div>
 
       <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
-        <color attach="background" args={['#050505']} />
-        <fog attach="fog" args={['#050505', 5, 40]} />
-        <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} castShadow />
-        
-        <Physics debug={false}>
-          {gameState === 'playing' && (
-            <>
-              <Player />
-              <Dungeon />
-              {enemies.map(enemy => (
-                <Enemy key={enemy.id} id={enemy.id} initialPosition={enemy.position} />
-              ))}
-              {allEnemiesDefeated && <ExitPortal />}
-            </>
-          )}
-          {/* Keep ground for movement raycasting */}
-          <Ground onMove={setTargetPos} />
-        </Physics>
+        <Suspense fallback={<Html center><div style={{ color: 'white' }}>LOADING ABYSS...</div></Html>}>
+          <color attach="background" args={['#050505']} />
+          <fog attach="fog" args={['#050505', 5, 45]} />
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} intensity={2} castShadow />
+          
+          <Physics debug={false}>
+            {gameState === 'playing' && (
+              <>
+                <Player />
+                <Dungeon />
+                {enemies.map(enemy => (
+                  <Enemy key={enemy.id} id={enemy.id} initialPosition={enemy.position} />
+                ))}
+                {allEnemiesDefeated && <ExitPortal />}
+              </>
+            )}
+            <Ground onMove={setTargetPos} />
+          </Physics>
 
-        {vfx.map(v => (
-          <ImpactVFX 
-            key={v.id} 
-            position={v.position} 
-            onComplete={() => removeVFX(v.id)} 
-          />
-        ))}
+          {vfx.map(v => (
+            <ImpactVFX 
+              key={v.id} 
+              position={v.position} 
+              onComplete={() => removeVFX(v.id)} 
+            />
+          ))}
 
-        <Effects />
-        <LootLabels />
-        <OrbitControls />
+          <Effects />
+          <LootLabels />
+          <OrbitControls />
+        </Suspense>
       </Canvas>
     </div>
   );

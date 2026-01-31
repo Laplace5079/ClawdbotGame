@@ -65,7 +65,7 @@ function Prop({ prop, position }: { prop: DungeonProp, position: [number, number
 }
 
 export function Dungeon() {
-  const layout = useMemo(() => generateDungeon(20, 20), []);
+  const layout = useMemo(() => generateDungeon(12, 12), []);
   
   return (
     <group>

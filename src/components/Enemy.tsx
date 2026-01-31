@@ -109,15 +109,7 @@ export function Enemy({ id, initialPosition }: EnemyProps) {
                 object={scene.clone()} 
                 scale={scale} 
                 position={[0, -0.5, 0]}
-            >
-                {/* Visual indicator for damage */}
-                <meshStandardMaterial 
-                    attach="material" 
-                    color={enemyData.hp < enemyData.maxHp ? "#ff0000" : "#ffffff"} 
-                    transparent
-                    opacity={0.8}
-                />
-            </primitive>
+            />
         </Float>
       </group>
       
