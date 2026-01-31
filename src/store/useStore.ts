@@ -31,11 +31,27 @@ interface GameState {
   equipItem: (item: Item, slot: string) => void;
   dropItem: (item: Item, position: [number, number, number]) => void;
   pickupItem: (id: string) => void;
+  // Game Loop State
+  gameState: 'start' | 'playing' | 'cleared';
+  setGameState: (state: 'start' | 'playing' | 'cleared') => void;
+
+  // Level System
+  dungeonLevel: number;
+  incrementDungeonLevel: () => void;
+  resetDungeon: () => void;
+
   // Enemy System
   enemies: EnemyData[];
   spawnEnemy: (enemy: EnemyData) => void;
   damageEnemy: (id: string, damage: number) => void;
   removeEnemy: (id: string) => void;
+  enemiesDefeated: number;
+  totalEnemiesInLevel: number;
+  setTotalEnemies: (count: number) => void;
+
+  // Player Actions
+  isAttacking: boolean;
+  setAttacking: (attacking: boolean) => void;
 
   // Leveling
   experience: number;
@@ -78,9 +94,23 @@ export const useStore = create<GameState>((set, get) => ({
   enemies: [],
   vfx: [],
 
+  gameState: 'start',
+  setGameState: (gameState) => set({ gameState }),
+
+  dungeonLevel: 1,
+  incrementDungeonLevel: () => set((state) => ({ dungeonLevel: state.dungeonLevel + 1 })),
+  resetDungeon: () => set({ enemies: [], enemiesDefeated: 0, totalEnemiesInLevel: 0, targetPos: null }),
+
   // Initial Leveling State
   experience: 0,
   level: 1,
+
+  enemiesDefeated: 0,
+  totalEnemiesInLevel: 0,
+  setTotalEnemies: (totalEnemiesInLevel) => set({ totalEnemiesInLevel }),
+
+  isAttacking: false,
+  setAttacking: (isAttacking) => set({ isAttacking }),
 
   addExperience: (amount) => set((state) => {
     const newExperience = state.experience + amount;
@@ -148,7 +178,12 @@ export const useStore = create<GameState>((set, get) => ({
   damageEnemy: (id, damage) => set((state) => ({
     enemies: state.enemies.map(e => e.id === id ? { ...e, hp: Math.max(0, e.hp - damage) } : e)
   })),
-  removeEnemy: (id) => set((state) => ({
-    enemies: state.enemies.filter(e => e.id !== id)
-  })),
+  removeEnemy: (id) => set((state) => {
+    const isEnemy = state.enemies.find(e => e.id === id);
+    if (!isEnemy) return state;
+    return {
+      enemies: state.enemies.filter(e => e.id !== id),
+      enemiesDefeated: state.enemiesDefeated + 1
+    };
+  }),
 }));

@@ -41,11 +41,12 @@
 - [x] Mock Audio Engine integration (SFX triggers for hits and loot)
 - [x] UI update for XP/Level tracking and Save/Load buttons
 
-## Milestone 6: Numerical Balancing and 1.0 Release
-- [x] Audit and tune Stat multiplier logic (`statCalculator.ts`) for better scaling
-- [x] Adjust item rarity weights (`itemGenerator.ts`) to "Diablo-like" standards
-- [x] Disable physics debug visualizers in `App.tsx`
-- [x] Perform final production build (`npm run build`)
-- [x] Final Documentation and Release Preparation
+## Milestone 7: Game Flow & AAA UX (Phase 7)
+- [x] Gothic-themed Splash Screen with "Start Game" and "Continue"
+- [x] Level Progression system (Dungeon Levels)
+- [x] "Level Clear" logic with summary screen
+- [x] Exit Portal spawning upon dungeon completion
+- [x] Difficulty scaling (Enemy HP scales with dungeon level)
+- [x] Mobile-responsive UI layout for HUD and Splash screens
 
 
