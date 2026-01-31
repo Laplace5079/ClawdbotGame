@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '../store/useStore';
 import * as THREE from 'three';
 
@@ -9,7 +9,6 @@ export function MobileControls() {
   const damageEnemy = useStore((state) => state.damageEnemy);
   const addVFX = useStore((state) => state.addVFX);
 
-  const joystickRef = useRef<HTMLDivElement>(null);
   const [isJoystickActive, setIsJoystickActive] = useState(false);
   const [joystickPos, setJoystickPos] = useState({ x: 0, y: 0 });
   const [knobPos, setKnobPos] = useState({ x: 0, y: 0 });
@@ -88,7 +87,7 @@ export function MobileControls() {
 
     // Attack closest enemy in range
     const range = 3;
-    let closestEnemy = null;
+    let closestEnemy: any = null;
     let minDist = Infinity;
 
     enemies.forEach(enemy => {
